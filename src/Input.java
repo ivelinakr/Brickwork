@@ -19,11 +19,16 @@ public class Input {
         return nums;
     }
 
-    public static String[] getLayout(int width) {
+    public static int[][] getLayout(int width, int length) {
+        int[][] intLayout = new int[length][width];
         String[] layout = new String[width];
         for (int i=0; i<width; i++) {
             String layoutLine = getInput();
             layout[i] = layoutLine;
+            String[] layoutNums = layout[i].split(" ");
+            for (int j=0; j<length; j++) {
+                intLayout[j][i] = Integer.parseInt(layoutNums[j]);
+            }
         }
 
         System.out.println("Layout is:");
@@ -31,14 +36,15 @@ public class Input {
             System.out.println(layout[k]);
         }
 
-        return layout;
+        return intLayout;
     }
 
     public static void main(String[] args) {
         System.out.println("Enter size (ex. '2 4')");
         Integer[] size = getSize();
         System.out.println("Enter layout lines one by one (ex. '1 1 2 2' then '3 3 4 4')");
-        String[] layout = getLayout(size[0]);
+        int[][] layout = getLayout(size[0],size[1]);
+        Brick.getBricks(layout, size[1], size[0]);
 
     }
 }
