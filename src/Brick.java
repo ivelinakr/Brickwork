@@ -29,9 +29,8 @@ public class Brick {
                     if (current == down) {
                         int[] c1 = {i,j};
                         int[] c2 = {i,j+1};
-                        Brick rightB = new Brick(c1,c2);
-                        tempArrList.add(rightB);
-                        tempArrList.add(new Brick(c1,c2));
+                        Brick downB = new Brick(c1,c2);
+                        tempArrList.add(downB);
                     }
                 }
                 if (i != length-1) {
