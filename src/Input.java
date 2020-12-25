@@ -44,7 +44,7 @@ public class Input {
         Integer[] size = getSize();
         System.out.println("Enter layout lines one by one (ex. '1 1 2 2' then '3 3 4 4')");
         int[][] layout = getLayout(size[0],size[1]);
-        Brick.getBricks(layout, size[1], size[0]);
-
+        Brick[] layer1 = Brick.getBricks(layout, size[1], size[0]);
+        LayerGenerator.generateLayer2(layer1, size[1], size[0]);
     }
 }
