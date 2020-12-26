@@ -3,10 +3,12 @@ import java.util.ArrayList;
 public class Brick {
     public int[] coordinate1 = new int[2];
     public int[] coordinate2 = new int[2];
+    public int number;
 
     public Brick(int[] coordinate1, int[] coordinate2) {
         this.coordinate1 = coordinate1;
         this.coordinate2 = coordinate2;
+        this.number = number;
     }
 
     public int[] getC1() {
@@ -15,6 +17,14 @@ public class Brick {
 
     public int[] getC2() {
         return coordinate2;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int newNumber) {
+        this.number = newNumber;
     }
 
     public static Brick[] getBricks(int[][] layout, int length, int width) {
