@@ -7,7 +7,7 @@ public class Input {
         return input;
     }
 
-    public static Integer[] getSize() {
+    public static Integer[] getSize() throws Exception {
         String input = getInput();
         String[] size = input.split(" ");
         Integer[] nums = new Integer[2];
@@ -15,6 +15,11 @@ public class Input {
         nums[0]= Integer.valueOf(size[0]);
         // length
         nums[1]= Integer.valueOf(size[1]);
+
+        if (nums[0]>99 || nums[1]>99) {
+            throw new Exception("Area has to be less than 100 lines and less than 100 columns");
+        }
+
         System.out.println("Size is: "+nums[0]+" by "+nums[1]);
         return nums;
     }
@@ -41,7 +46,7 @@ public class Input {
         return intLayout;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("Enter size (ex. '2 4')");
         Integer[] size = getSize();
         System.out.println("Enter layout lines one by one (ex. '1 1 2 2' then '3 3 4 4')");
