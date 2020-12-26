@@ -18,6 +18,8 @@ public class Input {
 
         if (nums[0]>99 || nums[1]>99) {
             throw new Exception("Area has to be less than 100 lines and less than 100 columns");
+        } else if (nums[0]%2!=0 || nums[1]%2!=0) {
+            throw new Exception("Numbers must be even");
         }
 
         System.out.println("Size is: "+nums[0]+" by "+nums[1]);
