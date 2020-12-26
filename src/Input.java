@@ -31,6 +31,8 @@ public class Input {
             }
         }
 
+        //System.out.println("2D ARRAY "+ Arrays.deepToString(intLayout));
+
         System.out.println("Layout is:");
         for (int k=0; k<width; k++) {
             System.out.println(layout[k]);
@@ -45,6 +47,9 @@ public class Input {
         System.out.println("Enter layout lines one by one (ex. '1 1 2 2' then '3 3 4 4')");
         int[][] layout = getLayout(size[0],size[1]);
         Brick[] layer1 = Brick.getBricks(layout, size[1], size[0]);
-        LayerGenerator.generateLayer2(layer1, size[1], size[0]);
+        LayerGenerator.getPrintLayout(layer1, size[1], size[0]);
+        Brick[] layer2 = LayerGenerator.generateLayer2(layer1, size[1], size[0]);
+        LayerGenerator.getPrintLayout(layer2, size[1], size[0]);
+
     }
 }
