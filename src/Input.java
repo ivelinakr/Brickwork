@@ -24,9 +24,35 @@ public class Input {
         return nums;
     }
 
-    public static int[][] getLayout(int width, int length) {
+    public static void validateNumbersCount(String str) throws Exception {
+        int count[] = new int[110];
+        int len = str.length();
+
+        for (int i=0; i<len; i++) {
+            count[str.charAt(i)]++;
+        }
+
+        char number[] = new char[str.length()];
+        for (int i=0; i<len; i++) {
+            number[i] = str.charAt(i);
+            int found = 0;
+            for (int j=0; j<=i; j++) {
+                if (str.charAt(i) == number[j]) {
+                    found++;
+                }
+            }
+
+            if (found==1 && str.charAt(i)!=' ' && count[str.charAt(i)]>2) {
+                throw new Exception("Bricks cannot be spanning 3 rows/columns");
+            }
+        }
+    }
+
+    public static int[][] getLayout(int width, int length) throws Exception {
         int[][] intLayout = new int[length][width];
         String[] layout = new String[width];
+        String layoutInOneLine = "";
+
         for (int i=0; i<width; i++) {
             String layoutLine = getInput();
             layout[i] = layoutLine;
@@ -36,13 +62,20 @@ public class Input {
             }
         }
 
-        //System.out.println("2D ARRAY "+ Arrays.deepToString(intLayout));
+        for (int i=0; i<layout.length; i++) {
+            if (i==0) {
+                layoutInOneLine = layoutInOneLine + layout[i];
+            } else {
+                layoutInOneLine = layoutInOneLine + " " + layout[i];
+            }
+        }
+
+        validateNumbersCount(layoutInOneLine);
 
         System.out.println("Layout is:");
         for (int k=0; k<width; k++) {
             System.out.println(layout[k]);
         }
-
         return intLayout;
     }
 
