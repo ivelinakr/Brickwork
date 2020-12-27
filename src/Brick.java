@@ -31,24 +31,26 @@ public class Brick {
         int brickCount = (length*width)/2;
         Brick[] bricks = new Brick[brickCount];
         ArrayList<Brick> tempArrList = new ArrayList<>();
-        for (int i=0; i<length; i++) {
-            for (int j=0; j<width; j++) {
-                int current = layout[i][j];
-                if (j != width-1) {
-                    int down = layout[i][j+1];
+        for (int i=0; i<width; i++) {
+            for (int j=0; j<length; j++) {
+                int current = layout[j][i];
+                if (i != width-1) {
+                    int down = layout[j][i+1];
                     if (current == down) {
-                        int[] c1 = {i,j};
-                        int[] c2 = {i,j+1};
+                        int[] c1 = {j,i};
+                        int[] c2 = {j,i+1};
                         Brick downB = new Brick(c1,c2);
+                        downB.setNumber(current);
                         tempArrList.add(downB);
                     }
                 }
-                if (i != length-1) {
-                    int right = layout[i+1][j];
+                if (j != length-1) {
+                    int right = layout[j+1][i];
                     if (current == right) {
-                        int[] c1 = {i,j};
-                        int[] c2 = {i+1,j};
+                        int[] c1 = {j,i};
+                        int[] c2 = {j+1,i};
                         Brick rightB = new Brick(c1,c2);
+                        rightB.setNumber(current);
                         tempArrList.add(rightB);
                     }
                 }
