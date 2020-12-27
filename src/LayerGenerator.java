@@ -136,15 +136,11 @@ public class LayerGenerator {
 
         // for getting horizontal line
         String horizontalLine = "*";
-        for (int i=0; i<layer.length; i++) {
-            // skips last
-            if (i == layer.length-1) {
-                break;
-            }
+        for (int i=0; i<length; i++) {
             // if brick is horizontal on first layer add 10 asterisks, if vertical 6
-            if (layer[i].getC1()[0]==0 && layer[i].getC2()[0]==0) {
+            if (layer[i].getC1()[1]==0 && layer[i].getC2()[1]==0) {
                 horizontalLine = horizontalLine + "**********";
-            } else {
+            } else if (layer[i].getC1()[1]==0 || layer[i].getC2()[1]==0){
                 horizontalLine = horizontalLine + "******";
             }
         }
