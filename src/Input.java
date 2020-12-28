@@ -88,7 +88,7 @@ public class Input {
         int[][] layout = getLayout(size[0],size[1]);
         Brick[] layer1 = Brick.getBricks(layout, size[1], size[0]);
         LayerGenerator.getPrintLayout(layer1, size[1], size[0]);
-        Brick[] layer2 = LayerGenerator.generateLayer2(layer1, size[1], size[0]);
+        Brick[] layer2 = LayerGenerator.generateLayer(layer1, size[1], size[0]);
         LayerGenerator.getPrintLayout(layer2, size[1], size[0]);
 
     }

@@ -2,88 +2,93 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LayerGenerator {
-    public static Brick[] generateLayer2 (Brick[] layer1, int length, int width) {
-        int brickCount = layer1.length;
-        Brick[] bricks2 = new Brick[brickCount];
-        ArrayList<Brick> tempArrList = new ArrayList<>();
-        int currentBrick = 0;
-        int brL1Num = 0;
-        int[] lastFirstRow = {length-1,0};
-        int[] lastSecondRow = {length-1,1};
+    public static Brick[] generateLayer (Brick[] layer1, int length, int width) {
+        ArrayList<Brick> tempArrList = new ArrayList<Brick>();
 
-        for (int i=0; i < length; i++) {
-            for (int j = 0; j < width; j++) {
+
+        for (int i=0; i<length; i++) {
+            for (int j=0; j<width; j++) {
+                int[] currentBrick = {i,j};
+                int[] rightBrick = {i+1,j}; // !
+                int[] lowerBrick = {i,j+1}; // !
                 boolean cTaken = false;
-                int[] c1l2 = {i, j};
-                int[] rightB = {i+1, j};
-                int[] lowerB = {i, j+1};
+                int brickCount = 0;
 
-                if (!(tempArrList.isEmpty())) {
+                if (currentBrick[0]==length-1 && currentBrick[1]==width-1) {
+                    break;
+                }
+
+                if (tempArrList.size()!=0) {
                     for (int k=0; k<tempArrList.size(); k++) {
                         int[] brickC1 = tempArrList.get(k).getC1();
                         int[] brickC2 = tempArrList.get(k).getC2();
 
-                        if ((brickC1[0] == c1l2[0] && brickC1[1] == c1l2[1]) || (brickC2[0] == c1l2[0] && brickC2[1] == c1l2[1])) {
+                        if ((brickC1[0] == currentBrick[0] && brickC1[1] == currentBrick[1]) || (brickC2[0] == currentBrick[0] && brickC2[1] == currentBrick[1])) {
                             cTaken = true;
                         }
                     }
                 }
 
                 if (!cTaken) {
-                    if (i==length-3) {
-                        for (Brick brick : layer1) {
-                            if (Arrays.equals(brick.getC1(),lastFirstRow) && Arrays.equals(brick.getC2(),lastSecondRow)) {
-                                // |=
-                                int[] firstC1 = {length-2,j};
-                                int[] firstC2 = {length-2,j+1};
-                                int[] secondC1 = {length-1,j};
-                                int[] secondC2 = {length,j};
-                                int[] thirdC1 = {length-1,j+1};
-                                int[] thirdC2 = {length,j+1};
-
-                                Brick firstBrick = new Brick(firstC1, firstC2);
-                                Brick secondBrick = new Brick(secondC1, secondC2);
-                                Brick thirdBrick = new Brick(thirdC1, thirdC2);
-                                tempArrList.add(firstBrick);
-                                tempArrList.add(secondBrick);
-                                tempArrList.add(thirdBrick);
-                                currentBrick= currentBrick+3;
-                                //brL1Num++;
-                                System.out.println("CURRENT BRICK " + currentBrick);
-                                break;
+                    //if (i<length-1 && j<width-1) {
+                        Brick currentBrickLayer1 = null;
+                        for (int k=0; k<layer1.length; k++) {
+                            // find brick from layer1 with current coordinates
+                            if (layer1[k].getC1()[0]==currentBrick[0] && layer1[k].getC1()[1]==currentBrick[1] || layer1[k].getC2()[0]==currentBrick[0] && layer1[k].getC2()[1]==currentBrick[1]) {
+                                currentBrickLayer1 = layer1[k];
                             }
                         }
-                    }
 
-                    if ((Arrays.equals(layer1[brL1Num].getC1(), c1l2) && Arrays.equals(layer1[brL1Num].getC2(), rightB)) || i == length - 1) {
-                        Brick newBrick = new Brick(c1l2, lowerB);
-                        tempArrList.add(newBrick);
-                        currentBrick++;
-                        brL1Num++;
-                        System.out.println("CURRENT BRICK " + currentBrick);
-                        continue;
-                    } else if (!(Arrays.equals(layer1[brL1Num].getC1(), c1l2) && Arrays.equals(layer1[brL1Num].getC2(), rightB))) {
-                        Brick newBrick = new Brick(c1l2, rightB);
-                        tempArrList.add(newBrick);
-                        currentBrick++;
-                        brL1Num++;
-                        System.out.println("CURRENT BRICK " + currentBrick);
-                        continue;
-                    }
+                        if (i<length-1 && j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==rightBrick[0] && currentBrickLayer1.getC2()[1]==rightBrick[1]) {
+                            // if brick is horizontal, generate vertical
+                            Brick newBrick = new Brick(currentBrick, lowerBrick);
+                            tempArrList.add(newBrick);
+                            brickCount++;
+                            System.out.println("Added brick " + brickCount);
+                            continue;
+                        } else if (j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==lowerBrick[0] && currentBrickLayer1.getC2()[1]==lowerBrick[1]) {
+                            // if brick is vertical, generate horizontal
+                            Brick newBrick = new Brick(currentBrick, rightBrick);
+                            tempArrList.add(newBrick);
+                            brickCount++;
+                            System.out.println("Added brick " + brickCount);
+                            continue;
+                        } else if (i<length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]){
+                            Brick newBrick = new Brick(currentBrick, rightBrick);
+                            tempArrList.add(newBrick);
+                            brickCount++;
+                            System.out.println("Added brick " + brickCount);
+                            continue;
+                        } else if(i==length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]) {
+                            Brick newBrick = new Brick(currentBrick, lowerBrick);
+                            tempArrList.add(newBrick);
+                            brickCount++;
+                            System.out.println("Added brick " + brickCount);
+                            continue;
+                        }
+                    //}
                 } else {
                     continue;
                 }
             }
         }
-        bricks2 = tempArrList.toArray(bricks2);
 
+        Object[] array = tempArrList.toArray();
+        Brick[] layer2 = new Brick[tempArrList.size()];
+        for (int i=0; i<tempArrList.size();i++) {
+            System.out.println("BRICK IN TEMPLIST "+tempArrList.get(i).getC1().toString()+tempArrList.get(i).getC2().toString());
+            Brick brick = (Brick) array[i];
+            layer2[i] = brick;
+        }
+        System.out.println("TEMPLIST BRICK COUNT "+tempArrList.size());
+        System.out.println("SECOND LAYER BRICK COUNT "+layer2.length);
         System.out.println("LAYER 2:");
-        for (int m=0; m<brickCount; m++) {
-            bricks2[m].setNumber(m+1);
-            System.out.println("BRICK NUMBER "+(m+1)+"="+Arrays.toString(bricks2[m].getC1())+" "+Arrays.toString(bricks2[m].getC2()));
+        for (int m=0; m<layer2.length; m++) {
+            layer2[m].setNumber(m+1);
+            System.out.println("BRICK NUMBER "+(m+1)+"="+Arrays.toString(layer2[m].getC1())+" "+Arrays.toString(layer2[m].getC2()));
         }
 
-        return bricks2;
+        return layer2;
     }
 
     public static void getPrintLayout(Brick[] layer, int length, int width) {
