@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class Input {
@@ -27,24 +30,15 @@ public class Input {
     }
 
     public static void validateNumbersCount(String str) throws Exception {
-        int count[] = new int[110];
-        int len = str.length();
-
-        for (int i=0; i<len; i++) {
-            count[str.charAt(i)]++;
+        String[] array = str.split(" ");
+        List<String> list = new ArrayList<>();
+        for (int i=0; i<array.length; i++) {
+            list.add(array[i]);
         }
 
-        char number[] = new char[str.length()];
-        for (int i=0; i<len; i++) {
-            number[i] = str.charAt(i);
-            int found = 0;
-            for (int j=0; j<=i; j++) {
-                if (str.charAt(i) == number[j]) {
-                    found++;
-                }
-            }
-
-            if (found==1 && str.charAt(i)!=' ' && count[str.charAt(i)]>2) {
+        for (int i=0; i<list.size(); i++) {
+            int count = Collections.frequency(list, list.get(i));
+            if (count>2) {
                 throw new Exception("Bricks cannot be spanning 3 rows/columns");
             }
         }
