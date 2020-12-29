@@ -5,15 +5,18 @@ import java.util.Scanner;
 
 public class Input {
     public static String getInput() {
+        // gets user input
         Scanner scan = new Scanner(System.in);
         String input = scan.nextLine();
         return input;
     }
 
     public static Integer[] getSize() throws Exception {
+        // gets size of area input by user
         String input = getInput();
         String[] size = input.split(" ");
         Integer[] nums = new Integer[2];
+
         // width
         nums[0]= Integer.valueOf(size[0]);
         // length
@@ -30,6 +33,7 @@ public class Input {
     }
 
     public static void validateNumbersCount(String str) throws Exception {
+        // validates brick locations
         String[] array = str.split(" ");
         List<String> list = new ArrayList<>();
         for (int i=0; i<array.length; i++) {
@@ -45,6 +49,7 @@ public class Input {
     }
 
     public static int[][] getLayout(int width, int length) throws Exception {
+        // converts string input of layout to two dimensional integer array
         int[][] intLayout = new int[length][width];
         String[] layout = new String[width];
         String layoutInOneLine = "";
@@ -65,6 +70,7 @@ public class Input {
                 layoutInOneLine = layoutInOneLine + " " + layout[i];
             }
         }
+
         validateNumbersCount(layoutInOneLine);
 
         System.out.println("Layer 1:");
@@ -74,12 +80,17 @@ public class Input {
     public static void main(String[] args) throws Exception {
         System.out.println("Enter size (ex. '2 4')");
         Integer[] size = getSize();
-        System.out.println("Enter layout lines one by one (ex. '1 1 2 2' then '3 3 4 4')");
+
+        System.out.println("Enter layer rows one by one (ex. '1 1 2 2' then '3 3 4 4')");
         int[][] layout = getLayout(size[0],size[1]);
         Brick[] layer1 = Brick.getBricks(layout, size[1], size[0]);
-        LayerGenerator.getPrintLayout(layer1, size[1], size[0]);
-        Brick[] layer2 = LayerGenerator.generateLayer(layer1, size[1], size[0]);
-        LayerGenerator.getPrintLayout(layer2, size[1], size[0]);
 
+        // prints layer 1
+        LayerGenerator.getPrintLayout(layer1, size[1], size[0]);
+
+        Brick[] layer2 = LayerGenerator.generateLayer(layer1, size[1], size[0]);
+
+        // prints layer 2
+        LayerGenerator.getPrintLayout(layer2, size[1], size[0]);
     }
 }

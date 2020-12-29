@@ -1,22 +1,25 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class LayerGenerator {
     public static Brick[] generateLayer (Brick[] layer1, int length, int width) {
+        // generates layer 2
+        // initialize arraylist to store layer 2 bricks
         ArrayList<Brick> tempArrList = new ArrayList<Brick>();
 
         for (int i=0; i<length; i++) {
             for (int j=0; j<width; j++) {
                 int[] currentBrick = {i,j};
-                int[] rightBrick = {i+1,j}; // !
-                int[] lowerBrick = {i,j+1}; // !
+                int[] rightBrick = {i+1,j};
+                int[] lowerBrick = {i,j+1};
                 boolean cTaken = false;
                 int brickCount = 0;
 
+                // at last position breaks the loop
                 if (currentBrick[0]==length-1 && currentBrick[1]==width-1) {
                     break;
                 }
 
+                // checks if current coordinate is taken by a generated brick
                 if (tempArrList.size()!=0) {
                     for (int k=0; k<tempArrList.size(); k++) {
                         int[] brickC1 = tempArrList.get(k).getC1();
@@ -38,23 +41,25 @@ public class LayerGenerator {
                     }
 
                     if (i<length-1 && j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==rightBrick[0] && currentBrickLayer1.getC2()[1]==rightBrick[1]) {
-                        // if brick is horizontal, generate vertical
+                        // if brick is horizontal, generate vertical brick
                         Brick newBrick = new Brick(currentBrick, lowerBrick);
                         tempArrList.add(newBrick);
                         brickCount++;
                         continue;
                     } else if (j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==lowerBrick[0] && currentBrickLayer1.getC2()[1]==lowerBrick[1]) {
-                        // if brick is vertical, generate horizontal
+                        // if brick is vertical, generate horizontal brick
                         Brick newBrick = new Brick(currentBrick, rightBrick);
                         tempArrList.add(newBrick);
                         brickCount++;
                         continue;
                     } else if (i<length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]){
+                        // when there is space on the right, generates a horizontal brick
                         Brick newBrick = new Brick(currentBrick, rightBrick);
                         tempArrList.add(newBrick);
                         brickCount++;
                         continue;
                     } else if(i==length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]) {
+                        // when there is no more space on the right, generates a vertical brick
                         Brick newBrick = new Brick(currentBrick, lowerBrick);
                         tempArrList.add(newBrick);
                         brickCount++;
@@ -66,6 +71,7 @@ public class LayerGenerator {
             }
         }
 
+        // converts tempArrList to Brick array from arraylist
         Object[] array = tempArrList.toArray();
         Brick[] layer2 = new Brick[tempArrList.size()];
 
@@ -76,6 +82,7 @@ public class LayerGenerator {
 
         System.out.println("\nLayer 2:");
 
+        // checks for non-occupied coordinates
         for (int i=0; i<length; i++) {
             for (int j=0; j<width; j++) {
                 boolean found = false;
@@ -91,11 +98,11 @@ public class LayerGenerator {
                 }
             }
         }
-
         return layer2;
     }
 
     public static void getPrintLayout(Brick[] layer, int length, int width) {
+        // prints layout in asterisks table
         ArrayList<String> rows = new ArrayList<>();
 
         for (int m=0; m<layer.length; m++) {
@@ -106,7 +113,7 @@ public class LayerGenerator {
             String row = "";
             ArrayList<Brick> tempArrList = new ArrayList<>();
 
-            // check if its on the current row
+            // checks if it is on the current row
             for (int k=0;k<layer.length;k++) {
                 int[] C1YCoordinate = layer[k].getC1();
                 int[] C2YCoordinate = layer[k].getC2();
@@ -116,7 +123,7 @@ public class LayerGenerator {
                 }
             }
 
-            // for getting formatted row
+            // gets formatted row
             for (int l=0;l<tempArrList.size();l++) {
                 int[] C1CurrentBlock = tempArrList.get(l).getC1();
                 int[] C2CurrentBlock = tempArrList.get(l).getC2();
@@ -143,10 +150,10 @@ public class LayerGenerator {
             rows.add(row);
         }
 
-        // for getting horizontal line
+        // gets horizontal line
         String horizontalLine = "*";
 
-        // get bricks connected to layer 1
+        // gets bricks connected to layer 1
         ArrayList<Brick> layer1bricks = new ArrayList<>();
         for (int i=0; i<layer.length; i++) {
             if (layer[i].getC1()[1]==0) {
@@ -155,7 +162,7 @@ public class LayerGenerator {
         }
 
         for (int i=0; i<layer1bricks.size(); i++) {
-            // if brick is horizontal on first layer add 10 asterisks, if vertical 6
+            // if brick is horizontal on first layer add 10 asterisks, if vertical then add 6 asterisks
             if (layer1bricks.get(i).getC1()[1]==0 && layer1bricks.get(i).getC2()[1]==0) {
                 horizontalLine = horizontalLine + "**********";
                 continue;
@@ -166,7 +173,7 @@ public class LayerGenerator {
         }
         System.out.println(horizontalLine);
 
-        // for getting asterisks in between rows
+        // gets asterisks in between rows
         for (int i=0; i<rows.size(); i++) {
             System.out.println(rows.get(i));
             String middle = "";

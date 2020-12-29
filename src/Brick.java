@@ -28,9 +28,11 @@ public class Brick {
     }
 
     public static Brick[] getBricks(int[][] layout, int length, int width) {
+        // converts two-dimensional array with brick to Brick array
         int brickCount = (length*width)/2;
         Brick[] bricks = new Brick[brickCount];
         ArrayList<Brick> tempArrList = new ArrayList<>();
+
         for (int i=0; i<length; i++) {
             for (int j=0; j<width; j++) {
                 int current = layout[i][j];
