@@ -138,13 +138,13 @@ public class LayerGenerator {
                     if (brickNumber<10) {
                         row = row + "* " + tempArrList.get(l).getNumber() + "   " + tempArrList.get(l).getNumber() + "   ";
                     } else if (brickNumber>=10 && brickNumber<=99) {
-                        row = row + "* " + tempArrList.get(l).getNumber() + "  " + tempArrList.get(l).getNumber() + "   ";
+                        row = row + "* " + tempArrList.get(l).getNumber() + "  " + tempArrList.get(l).getNumber() + "  ";
                     }
                 } else {
                     if (brickNumber<10) {
                         row = row + "* " + tempArrList.get(l).getNumber() + "   ";
                     } else if (brickNumber>=10 && brickNumber<=99) {
-                        row = row + "* " + tempArrList.get(l).getNumber() + "  ";
+                        row = row + "* " + tempArrList.get(l).getNumber() + " ";
                     }
                 }
 
@@ -157,12 +157,23 @@ public class LayerGenerator {
 
         // for getting horizontal line
         String horizontalLine = "*";
-        for (int i=0; i<length; i++) {
+
+        // get bricks connected to layer 1
+        ArrayList<Brick> layer1bricks = new ArrayList<>();
+        for (int i=0; i<layer.length; i++) {
+            if (layer[i].getC1()[1]==0) {
+                layer1bricks.add(layer[i]);
+            }
+        }
+
+        for (int i=0; i<layer1bricks.size(); i++) {
             // if brick is horizontal on first layer add 10 asterisks, if vertical 6
-            if (layer[i].getC1()[1]==0 && layer[i].getC2()[1]==0) {
+            if (layer1bricks.get(i).getC1()[1]==0 && layer1bricks.get(i).getC2()[1]==0) {
                 horizontalLine = horizontalLine + "**********";
-            } else if (layer[i].getC1()[1]==0 || layer[i].getC2()[1]==0){
+                continue;
+            } else {
                 horizontalLine = horizontalLine + "******";
+                continue;
             }
         }
         System.out.println(horizontalLine);
@@ -179,7 +190,9 @@ public class LayerGenerator {
                     middle = middle + "*";
                 } else if (rows.get(i).charAt(j)==' ') {
                     continue;
-                } else if (Character.isDigit(rows.get(i).charAt(j)) && rows.get(i).charAt(j)==rows.get(i+1).charAt(j)) {
+                } else if (Character.isDigit(rows.get(i).charAt(j)) && !Character.isDigit(rows.get(i).charAt(j+1)) && rows.get(i).charAt(j)==rows.get(i+1).charAt(j)) {
+                    middle = middle + "     ";
+                } else if (Character.isDigit(rows.get(i).charAt(j)) && Character.isDigit(rows.get(i).charAt(j+1)) && rows.get(i).charAt(j)==rows.get(i+1).charAt(j) && rows.get(i).charAt(j+1)==rows.get(i+1).charAt(j+1)) {
                     middle = middle + "     ";
                 } else {
                     middle = middle + "*********";
