@@ -5,7 +5,6 @@ public class LayerGenerator {
     public static Brick[] generateLayer (Brick[] layer1, int length, int width) {
         ArrayList<Brick> tempArrList = new ArrayList<Brick>();
 
-
         for (int i=0; i<length; i++) {
             for (int j=0; j<width; j++) {
                 int[] currentBrick = {i,j};
@@ -75,6 +74,7 @@ public class LayerGenerator {
 
         Object[] array = tempArrList.toArray();
         Brick[] layer2 = new Brick[tempArrList.size()];
+
         for (int i=0; i<tempArrList.size();i++) {
             System.out.println("BRICK IN TEMPLIST "+tempArrList.get(i).getC1().toString()+tempArrList.get(i).getC2().toString());
             Brick brick = (Brick) array[i];
@@ -86,6 +86,22 @@ public class LayerGenerator {
         for (int m=0; m<layer2.length; m++) {
             layer2[m].setNumber(m+1);
             System.out.println("BRICK NUMBER "+(m+1)+"="+Arrays.toString(layer2[m].getC1())+" "+Arrays.toString(layer2[m].getC2()));
+        }
+
+        for (int i=0; i<length; i++) {
+            for (int j=0; j<width; j++) {
+                boolean found = false;
+                for (int k = 0; k < layer2.length; k++) {
+                    if (layer2[k].getC1()[0] == i && layer2[k].getC1()[1] == j) {
+                        found = true;
+                    } else if (layer2[k].getC2()[0] == i && layer2[k].getC2()[1] == j) {
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    throw new Error("-1");
+                }
+            }
         }
 
         return layer2;
