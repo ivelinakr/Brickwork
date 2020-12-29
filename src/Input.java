@@ -65,13 +65,9 @@ public class Input {
                 layoutInOneLine = layoutInOneLine + " " + layout[i];
             }
         }
-
         validateNumbersCount(layoutInOneLine);
 
-        System.out.println("Layout is:");
-        for (int k=0; k<width; k++) {
-            System.out.println(layout[k]);
-        }
+        System.out.println("Layer 1:");
         return intLayout;
     }
 

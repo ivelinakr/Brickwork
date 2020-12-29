@@ -29,43 +29,37 @@ public class LayerGenerator {
                 }
 
                 if (!cTaken) {
-                    //if (i<length-1 && j<width-1) {
-                        Brick currentBrickLayer1 = null;
-                        for (int k=0; k<layer1.length; k++) {
-                            // find brick from layer1 with current coordinates
-                            if (layer1[k].getC1()[0]==currentBrick[0] && layer1[k].getC1()[1]==currentBrick[1] || layer1[k].getC2()[0]==currentBrick[0] && layer1[k].getC2()[1]==currentBrick[1]) {
-                                currentBrickLayer1 = layer1[k];
-                            }
+                    Brick currentBrickLayer1 = null;
+                    for (int k=0; k<layer1.length; k++) {
+                        // find brick from layer1 with current coordinates
+                        if (layer1[k].getC1()[0]==currentBrick[0] && layer1[k].getC1()[1]==currentBrick[1] || layer1[k].getC2()[0]==currentBrick[0] && layer1[k].getC2()[1]==currentBrick[1]) {
+                            currentBrickLayer1 = layer1[k];
                         }
+                    }
 
-                        if (i<length-1 && j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==rightBrick[0] && currentBrickLayer1.getC2()[1]==rightBrick[1]) {
-                            // if brick is horizontal, generate vertical
-                            Brick newBrick = new Brick(currentBrick, lowerBrick);
-                            tempArrList.add(newBrick);
-                            brickCount++;
-                            System.out.println("Added brick " + brickCount);
-                            continue;
-                        } else if (j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==lowerBrick[0] && currentBrickLayer1.getC2()[1]==lowerBrick[1]) {
-                            // if brick is vertical, generate horizontal
-                            Brick newBrick = new Brick(currentBrick, rightBrick);
-                            tempArrList.add(newBrick);
-                            brickCount++;
-                            System.out.println("Added brick " + brickCount);
-                            continue;
-                        } else if (i<length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]){
-                            Brick newBrick = new Brick(currentBrick, rightBrick);
-                            tempArrList.add(newBrick);
-                            brickCount++;
-                            System.out.println("Added brick " + brickCount);
-                            continue;
-                        } else if(i==length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]) {
-                            Brick newBrick = new Brick(currentBrick, lowerBrick);
-                            tempArrList.add(newBrick);
-                            brickCount++;
-                            System.out.println("Added brick " + brickCount);
-                            continue;
-                        }
-                    //}
+                    if (i<length-1 && j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==rightBrick[0] && currentBrickLayer1.getC2()[1]==rightBrick[1]) {
+                        // if brick is horizontal, generate vertical
+                        Brick newBrick = new Brick(currentBrick, lowerBrick);
+                        tempArrList.add(newBrick);
+                        brickCount++;
+                        continue;
+                    } else if (j<width-1 && currentBrickLayer1.getC1()[0]==currentBrick[0] && currentBrickLayer1.getC1()[1]==currentBrick[1] && currentBrickLayer1.getC2()[0]==lowerBrick[0] && currentBrickLayer1.getC2()[1]==lowerBrick[1]) {
+                        // if brick is vertical, generate horizontal
+                        Brick newBrick = new Brick(currentBrick, rightBrick);
+                        tempArrList.add(newBrick);
+                        brickCount++;
+                        continue;
+                    } else if (i<length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]){
+                        Brick newBrick = new Brick(currentBrick, rightBrick);
+                        tempArrList.add(newBrick);
+                        brickCount++;
+                        continue;
+                    } else if(i==length-1 && currentBrickLayer1.getC2()[0]==currentBrick[0] && currentBrickLayer1.getC2()[1]==currentBrick[1]) {
+                        Brick newBrick = new Brick(currentBrick, lowerBrick);
+                        tempArrList.add(newBrick);
+                        brickCount++;
+                        continue;
+                    }
                 } else {
                     continue;
                 }
@@ -76,17 +70,11 @@ public class LayerGenerator {
         Brick[] layer2 = new Brick[tempArrList.size()];
 
         for (int i=0; i<tempArrList.size();i++) {
-            System.out.println("BRICK IN TEMPLIST "+tempArrList.get(i).getC1().toString()+tempArrList.get(i).getC2().toString());
             Brick brick = (Brick) array[i];
             layer2[i] = brick;
         }
-        System.out.println("TEMPLIST BRICK COUNT "+tempArrList.size());
-        System.out.println("SECOND LAYER BRICK COUNT "+layer2.length);
-        System.out.println("LAYER 2:");
-        for (int m=0; m<layer2.length; m++) {
-            layer2[m].setNumber(m+1);
-            System.out.println("BRICK NUMBER "+(m+1)+"="+Arrays.toString(layer2[m].getC1())+" "+Arrays.toString(layer2[m].getC2()));
-        }
+
+        System.out.println("\nLayer 2:");
 
         for (int i=0; i<length; i++) {
             for (int j=0; j<width; j++) {
